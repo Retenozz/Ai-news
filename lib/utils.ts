@@ -5,7 +5,7 @@ export type NewsItem = {
   category?: string | null;
   published_at?: string | null;
   link?: string | null;
-  image_url?: string | null;
+  image?: string | null;
   tags?: string[] | null;
   sentiment?: string | null;
   source?: string | null;

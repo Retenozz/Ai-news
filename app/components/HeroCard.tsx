@@ -28,9 +28,9 @@ export default function HeroCard({
       aria-label={title}
     >
       <article className="group relative min-h-[470px] overflow-hidden rounded-lg border border-slate-900 bg-slate-950 text-white shadow-[0_24px_70px_rgba(15,23,42,0.28)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(15,23,42,0.34)] lg:min-h-[560px]">
-        {item.image_url ? (
+        {item.image ? (
           <img
-            src={item.image_url}
+            src={item.image}
             alt=""
             className="absolute inset-0 h-full w-full object-cover opacity-75 transition duration-700 group-hover:scale-105"
           />

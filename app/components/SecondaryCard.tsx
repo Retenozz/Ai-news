@@ -35,9 +35,9 @@ function SecondaryCard({
         }}
       >
         <div className="relative overflow-hidden bg-slate-100">
-          {item.image_url ? (
+          {item.image ? (
             <img
-              src={item.image_url}
+              src={item.image}
               alt=""
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
               loading="lazy"

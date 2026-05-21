@@ -36,7 +36,7 @@ export default function ListItem({
         </div>
 
         <Thumbnail
-          src={item.image_url}
+          src={item.image}
           alt={title}
           className="hidden h-20 w-full rounded-lg sm:block"
           fallback={marker}
@@ -57,6 +57,7 @@ export default function ListItem({
           {item.summary ? (
             <p className="mt-2 text-sm leading-6 text-slate-600 line-clamp-2">
               {item.summary}
+ 
             </p>
           ) : null}
         </div>
