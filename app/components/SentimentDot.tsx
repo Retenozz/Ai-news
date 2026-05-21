@@ -6,9 +6,9 @@ export default function SentimentDot({
   sentiment?: string | null;
 }) {
   const s =
-    SENTIMENT_MAP[
-      sentiment?.toLowerCase()
-    ];
+  SENTIMENT_MAP[
+    sentiment?.toLowerCase() || "neutral"
+  ];
 
   if (!s) return null;
 
