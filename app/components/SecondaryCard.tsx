@@ -1,72 +1,78 @@
-import Thumbnail from "./Thumbnail";
+/* eslint-disable @next/next/no-img-element */
+
 import CategoryBadge from "./CategoryBadge";
-import SentimentDot from "./SentimentDot";
 
 import {
   CATEGORY_EMOJI,
   timeAgo,
 } from "@/lib/utils";
+import type { NewsItem } from "@/lib/utils";
 
-export default function SecondaryCard({
+function SecondaryCard({
   item,
   index,
 }: {
-  item: any;
+  item: NewsItem;
   index: number;
 }) {
-  const emoji =
-    CATEGORY_EMOJI[
-      item.category?.toLowerCase()
-    ] ?? "📰";
+  const categoryKey = item.category?.toLowerCase() || "";
+  const marker = CATEGORY_EMOJI[categoryKey] ?? "NEWS";
+  const href = item.link || "#";
+  const title = item.title || "Untitled briefing";
 
   return (
     <a
-      href={item.link}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block"
+      className="block rounded-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300/70"
+      aria-label={title}
     >
       <article
-        className="group bg-zinc-900/60 rounded-2xl border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900 transition-all duration-300 overflow-hidden flex flex-col"
+        className="group grid min-h-[156px] grid-cols-[96px_1fr] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md sm:grid-cols-[132px_1fr] lg:min-h-[132px]"
         style={{
           animationDelay: `${index * 80}ms`,
         }}
       >
-        <div className="relative">
-          <Thumbnail
-            src={item.image_url}
-            alt={item.title}
-            className="h-40 w-full"
-            fallback={emoji}
-          />
-
-          <div className="absolute bottom-3 left-3">
-            <CategoryBadge
-              category={item.category}
+        <div className="relative overflow-hidden bg-slate-100">
+          {item.image_url ? (
+            <img
+              src={item.image_url}
+              alt=""
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              loading="lazy"
             />
-          </div>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <span className="text-sm font-black tracking-[0.14em] text-slate-400">
+                {marker}
+              </span>
+            </div>
+          )}
         </div>
 
-        <div className="p-5 flex flex-col flex-1">
-          <h3 className="text-base font-bold text-white mb-3 line-clamp-2">
-            {item.title}
-          </h3>
-
-          <p className="text-zinc-500 text-sm line-clamp-2 flex-1">
-            {item.summary}
-          </p>
-
-          <div className="mt-4 flex items-center justify-between">
-            <span className="text-[11px] text-zinc-600 font-mono">
-              {timeAgo(item.published_at)}
+        <div className="flex min-w-0 flex-col justify-between p-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <CategoryBadge category={item.category} />
+            <span className="text-xs font-semibold text-slate-500">
+              {timeAgo(item.published_at) || "Latest"}
             </span>
+          </div>
 
-            <SentimentDot
-              sentiment={item.sentiment}
-            />
+          <div className="mt-3">
+            <h3 className="text-base font-black leading-snug tracking-normal text-slate-950 line-clamp-2">
+              {title}
+            </h3>
+            {item.summary ? (
+              <p className="mt-2 text-sm leading-6 text-slate-600 line-clamp-2">
+                {item.summary}
+              </p>
+            ) : null}
           </div>
         </div>
       </article>
     </a>
   );
 }
+
+export default SecondaryCard;

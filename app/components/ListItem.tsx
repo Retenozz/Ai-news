@@ -1,58 +1,64 @@
 import Thumbnail from "./Thumbnail";
 import CategoryBadge from "./CategoryBadge";
+import SentimentDot from "./SentimentDot";
 
 import {
   CATEGORY_EMOJI,
   timeAgo,
 } from "@/lib/utils";
+import type { NewsItem } from "@/lib/utils";
 
 export default function ListItem({
   item,
   index,
 }: {
-  item: any;
+  item: NewsItem;
   index: number;
 }) {
-  const emoji =
-    CATEGORY_EMOJI[
-      item.category?.toLowerCase()
-    ] ?? "📰";
+  const categoryKey = item.category?.toLowerCase() || "";
+  const marker = CATEGORY_EMOJI[categoryKey] ?? "NEWS";
+  const href = item.link || "#";
+  const title = item.title || "Untitled briefing";
 
   return (
     <a
-      href={item.link}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block"
+      className="block rounded-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-sky-300/70"
+      aria-label={title}
     >
-      <article className="group flex items-start gap-5 py-5 border-b border-zinc-800/60">
-        <div className="w-8 text-right">
-          <span className="text-2xl font-black text-zinc-800">
+      <article className="group grid grid-cols-[36px_1fr] gap-4 border-b border-slate-200 py-5 transition duration-300 hover:bg-white/70 sm:grid-cols-[48px_124px_1fr] sm:px-3">
+        <div className="pt-1 text-right">
+          <span className="text-sm font-black tabular-nums text-slate-300 transition group-hover:text-slate-500 sm:text-base">
             {String(index + 1).padStart(2, "0")}
           </span>
         </div>
 
         <Thumbnail
           src={item.image_url}
-          alt={item.title}
-          className="w-20 h-16 rounded-xl"
-          fallback={emoji}
+          alt={title}
+          className="hidden h-20 w-full rounded-lg sm:block"
+          fallback={marker}
         />
 
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <CategoryBadge
-              category={item.category}
-            />
-
-            <span className="text-[11px] text-zinc-600">
-              {timeAgo(item.published_at)}
+        <div className="min-w-0">
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            <CategoryBadge category={item.category} />
+            <span className="text-xs font-semibold text-slate-500">
+              {timeAgo(item.published_at) || "Latest"}
             </span>
+            <SentimentDot sentiment={item.sentiment} />
           </div>
 
-          <h3 className="text-sm font-semibold text-zinc-200 line-clamp-2">
-            {item.title}
+          <h3 className="text-base font-black leading-snug tracking-normal text-slate-950 line-clamp-2 transition group-hover:text-sky-800">
+            {title}
           </h3>
+          {item.summary ? (
+            <p className="mt-2 text-sm leading-6 text-slate-600 line-clamp-2">
+              {item.summary}
+            </p>
+          ) : null}
         </div>
       </article>
     </a>

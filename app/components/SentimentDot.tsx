@@ -3,7 +3,7 @@ import { SENTIMENT_MAP } from "@/lib/utils";
 export default function SentimentDot({
   sentiment,
 }: {
-  sentiment: string;
+  sentiment?: string | null;
 }) {
   const s =
     SENTIMENT_MAP[
@@ -14,9 +14,9 @@ export default function SentimentDot({
 
   return (
     <span
-      className={`text-xs font-medium ${s.cls} flex items-center gap-1`}
+      className={`flex items-center gap-1 text-xs font-semibold ${s.cls}`}
     >
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-current opacity-80" />
+      <span className="inline-block h-1.5 w-1.5 rounded-full bg-current opacity-80" />
       {s.label}
     </span>
   );
